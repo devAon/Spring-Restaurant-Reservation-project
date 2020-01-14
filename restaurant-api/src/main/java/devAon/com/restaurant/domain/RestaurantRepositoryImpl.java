@@ -28,4 +28,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
                 .orElse(null);
     }
 
+    @Override
+    public List<MenuItem> findAllByRetaurantId(Long id) {
+        return null;
+    }
 }

@@ -1,5 +1,7 @@
 package devAon.com.restaurant.interfaces;
 
+import devAon.com.restaurant.application.RestaurantService;
+import devAon.com.restaurant.domain.MenuItemRepository;
 import devAon.com.restaurant.domain.MenuItemRepositoryImpl;
 import devAon.com.restaurant.domain.RestaurantRepository;
 import devAon.com.restaurant.domain.RestaurantRepositoryImpl;
@@ -30,7 +32,10 @@ public class RestaurantControllerTest {
     private RestaurantRepository restaurantRepository;
 
     @SpyBean(MenuItemRepositoryImpl.class)
-    private MenuItemRepositoryImpl menuItemRepository;
+    private MenuItemRepository menuItemRepository;
+
+    @SpyBean(RestaurantService.class)
+    private RestaurantService restaurantService;
 
     //가게 목록
     @Test
@@ -44,7 +49,7 @@ public class RestaurantControllerTest {
                         containsString("\"name\":\"Bob zip\"")
                 ))
                 .andExpect(content().string(
-                        containsString("Kimchi")
+                        containsString("kimchi")
                 ));
 
     }

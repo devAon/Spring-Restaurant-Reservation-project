@@ -6,4 +6,6 @@ public interface RestaurantRepository {
     List<Restaurant> findAll();
 
     Restaurant finById(Long id);
+
+    List<MenuItem> findAllByRetaurantId(Long id);
 }
