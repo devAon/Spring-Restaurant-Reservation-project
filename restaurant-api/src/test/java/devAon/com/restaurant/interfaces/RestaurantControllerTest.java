@@ -1,10 +1,7 @@
 package devAon.com.restaurant.interfaces;
 
 import devAon.com.restaurant.application.RestaurantService;
-import devAon.com.restaurant.domain.MenuItemRepository;
-import devAon.com.restaurant.domain.MenuItemRepositoryImpl;
-import devAon.com.restaurant.domain.RestaurantRepository;
-import devAon.com.restaurant.domain.RestaurantRepositoryImpl;
+import devAon.com.restaurant.domain.*;
 
 import org.junit.Test;
 /*import org.junit.jupiter.api.Test;*/
@@ -12,11 +9,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,18 +30,30 @@ public class RestaurantControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @SpyBean(RestaurantRepositoryImpl.class)
+    @MockBean
+    private RestaurantService restaurantService;
+    //가짜로 바뀌게 됨. SpyBean 모두 제거.
+
+    /* @SpyBean(RestaurantService.class)
+    private RestaurantService restaurantService;
+    */
+
+   /* @SpyBean(RestaurantRepositoryImpl.class)
     private RestaurantRepository restaurantRepository;
 
     @SpyBean(MenuItemRepositoryImpl.class)
     private MenuItemRepository menuItemRepository;
-
-    @SpyBean(RestaurantService.class)
-    private RestaurantService restaurantService;
+*/
 
     //가게 목록
     @Test
     public void list() throws Exception {
+        List<Restaurant> restaurants = new ArrayList<>();
+        restaurants.add(new Restaurant(1004L,"Bob zip", "Seoul"));
+        //restaurants.add(new Restaurant(1004L,"JOKER House", "Seoul"));
+
+        given(restaurantService.getRestaurants()).willReturn(restaurants);
+
         mvc.perform(get("/restaurants"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(
@@ -47,9 +61,6 @@ public class RestaurantControllerTest {
                 ))
                 .andExpect(content().string(
                         containsString("\"name\":\"Bob zip\"")
-                ))
-                .andExpect(content().string(
-                        containsString("kimchi")
                 ));
 
     }
@@ -58,6 +69,15 @@ public class RestaurantControllerTest {
     //가게 상세
     @Test
     public void detail() throws Exception {
+        Restaurant restaurant1 = new Restaurant(1004L,"Bob zip", "Seoul" );
+        restaurant1.addMenuItem(new MenuItem("kimchi"));
+
+        Restaurant restaurant2 = new Restaurant(2020L,"Cyber Food", "Seoul" );
+        //restaurant2.addMenuItem(new MenuItem("kimchi"));
+
+        given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
+        given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
+
         mvc.perform(get("/restaurants/1004"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("\"id\":1004")))
