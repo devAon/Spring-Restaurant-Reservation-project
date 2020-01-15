@@ -28,8 +28,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
                 .orElse(null);
     }
 
+
     @Override
-    public List<MenuItem> findAllByRetaurantId(Long id) {
-        return null;
+    public Restaurant save(Restaurant restaurant) {
+        restaurant.setId(1234);
+        restaurants.add(restaurant);
+        return restaurant;
     }
 }
+

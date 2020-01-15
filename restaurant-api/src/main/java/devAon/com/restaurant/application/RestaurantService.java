@@ -38,4 +38,10 @@ public class RestaurantService {
 
         return restaurants;
     }
+
+    public Restaurant addRestaurant(Restaurant restaurant) {
+        //restaurant.setId(1234L);
+        //return restaurant;
+        return restaurantRepository.save(restaurant);
+    }
 }

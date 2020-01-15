@@ -7,5 +7,5 @@ public interface RestaurantRepository {
 
     Restaurant findById(Long id);
 
-    List<MenuItem> findAllByRetaurantId(Long id);
+    Restaurant save(Restaurant restaurant);
 }
