@@ -1,13 +1,24 @@
 package devAon.com.restaurant.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Restaurant {
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     private String name;
     private String address;
-    private Long id;
+
+    //임시 통과 처리
+    @Transient
     private List<MenuItem> menuItems = new ArrayList<>();
 
     public Restaurant() {

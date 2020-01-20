@@ -12,7 +12,7 @@ class RestaurantTests {
     @Test
     public void creation() {
         Restaurant restaurant = new Restaurant(1004L,"Bob zip","Seoul");
-        assertThat(restaurant.getId(), is(equalTo("Bob zip")));
+        assertThat(restaurant.getId(), is(equalTo(1004L)));
         assertThat(restaurant.getName(), is(equalTo("Bob zip")));
         assertThat(restaurant.getAddress(), is("Seoul"));
     }
