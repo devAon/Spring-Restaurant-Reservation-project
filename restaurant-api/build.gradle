@@ -31,14 +31,24 @@ dependencies {
 	implementation 'com.h2database:h2'
 
 
-	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testCompile 'junit:junit:4.12'
+
+
+	runtimeOnly 'org.projectlombok:lombok:1.18.10'
+	compileOnly 'org.projectlombok:lombok:1.18.10'
+	testCompileOnly 'org.projectlombok:lombok:1.18.10'
+	annotationProcessor 'org.projectlombok:lombok:1.18.10'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
 }
+
+
+
+
 
 test {
 	useJUnitPlatform()

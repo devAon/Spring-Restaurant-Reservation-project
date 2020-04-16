@@ -1,34 +1,30 @@
 package devAon.com.restaurant.application;
 
-import devAon.com.restaurant.domain.MenuItem;
-import devAon.com.restaurant.domain.MenuItemRepository;
-import devAon.com.restaurant.domain.Restaurant;
-import devAon.com.restaurant.domain.RestaurantRepository;
+import devAon.com.restaurant.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class RestaurantService {
 
-    @Autowired
+
     RestaurantRepository restaurantRepository;
 
-    @Autowired
-    MenuItemRepository menuItemRepository;
+    /*@Autowired
+    MenuItemRepository menuItemRepository;*/
 
-    public RestaurantService(RestaurantRepository restaurantRepository,
-                                MenuItemRepository menuItemRepository) {
+    @Autowired
+    public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
-        this.menuItemRepository = menuItemRepository;
     }
 
     public Restaurant getRestaurant(Long id) {
-        Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
-
-        List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
-        restaurant.setMenuItems(menuItems);
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(()-> new RestaurantNotFoundException(id));
 
         return restaurant;
     }
@@ -43,5 +39,14 @@ public class RestaurantService {
         //restaurant.setId(1234L);
         //return restaurant;
         return restaurantRepository.save(restaurant);
+    }
+
+    @Transactional
+    public Restaurant updateRestaurant(Long id, Long categoryId, String name, String address) {
+        Restaurant restaurant = restaurantRepository.findById(id).orElse(null);
+
+        restaurant.updateInformation(categoryId, name, address);
+
+        return restaurant;
     }
 }
