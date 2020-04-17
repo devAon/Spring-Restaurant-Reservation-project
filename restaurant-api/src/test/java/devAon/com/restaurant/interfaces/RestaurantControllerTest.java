@@ -122,13 +122,25 @@ public class RestaurantControllerTest {
     verify(restaurantService).addRestaurant(any());
 }
 
-    @Test
+   /* @Test
     public void createWithInvalidData() throws Exception {
         mvc.perform(post("/restaurants")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"\",\"address\":\"\"}"))
                 .andExpect(status().isBadRequest());
+    }*/
+
+    @Test
+    public void create() throws Exception {
+        //Restaurant restaurant = new Restaurant(1234L, "BeRyong", "Busan");
+        mvc.perform(post("/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\" : \"BeRyong\", \"address\" : \"Busan\"}"))
+                .andExpect(status().isCreated())
+                .andExpect((header().string("location", "/restaurants/1234")))
+                .andExpect(content().string("{}"));
     }
+
 
     @Test
     public void update() throws Exception {
